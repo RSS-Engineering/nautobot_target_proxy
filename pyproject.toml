@@ -1,0 +1,48 @@
+[tool.poetry]
+name = "Nautobot API Scraper"
+description = "Simple API to scrape targets from Nautobot for use with other systems"
+version = "0.0.1"
+authors = ["Project Undercloud Developers"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+# App requirements
+requests = "2.32.3"
+fastapi = {version = "0.115.0", extras = ["standard"]}
+
+[tool.poetry.dev-dependencies]
+taskipy = "^1.12.0"
+pylint = "^2.17.5"
+black = "^24.3.0"
+isort = {version = "5.12.0", extras = ["pyproject"]}
+pycodestyle = "2.11.0"
+
+[tool.black]
+line-length = 100
+target-version = ['py312']
+
+[tool.isort]
+combine_as_imports = true
+force_grid_wrap = 0
+include_trailing_comma = true
+multi_line_output = 3
+use_parentheses = true
+line_length = 100
+wrap_length = 100
+ensure_newline_before_comments = true
+
+import_heading_firstparty = "First Party"
+import_heading_stdlib = "Standard Library"
+import_heading_thirdparty = "Third Party"
+
+known_first_party = ["helpers"]
+
+[tool.taskipy.tasks]
+pycodestyle = "poetry run pycodestyle src"
+pylint = "poetry run pylint -j 0 --rcfile pyproject.toml src"
+isort = "poetry run isort --sp ../pyproject.toml src"
+isort_check = "poetry run isort --sp ../pyproject.toml --check-only src"
+black = "poetry run black src"
